@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from hw1 import learn_bandit_rewards
 
-def generate_bandits(num_of_bandits):
-	np.random.seed(42)
+def generate_multi_bandits(num_of_bandits):
+	# np.random.seed(42)
 	# Q_val=np.random.randn(num_of_bandits)
 	Q_val=np.random.normal(size=num_of_bandits)
 	bandits={}
@@ -15,23 +15,44 @@ def generate_bandits(num_of_bandits):
 	print Q_val
 	return bandits
 
+def generate_4_bandits(num_of_bandits):
+	def bandit_1():
+		return 8
 
-bandits=generate_bandits(4)
+	def bandit_2():
+		p=np.random.uniform()
+		if p < 0.12:
+			return 100
+		else:
+			return 0
+	def bandit_3():
+		p=np.random.uniform()
+		return (p*45 - 10)
 
+	def bandit_4():
+		p=np.random.uniform()
+		if p > (2.0/3.0):
+			return 0
+		elif p > (1.0/3.0):
+			return 20
+		else:
+			reward_list=range(8,19)
+			return reward_list[np.random.randint(0,len(reward_list))]			
 
-episodes=400
+	return [bandit_1, bandit_2, bandit_3, bandit_4] 
+
+np.random.seed([42])
+bandits=generate_4_bandits(4)
+
+episodes=100
 
 Q=np.empty((3,episodes))
 
-for i in range(episodes):
-	np.random.seed(42)
-	Q[0][i]=np.max(learn_bandit_rewards(bandits,0.3,i))
-	np.random.seed(42)
-	Q[1][i]=np.max(learn_bandit_rewards(bandits,0.1,i))
-	np.random.seed(42)
-	Q[2][i]=np.max(learn_bandit_rewards(bandits,0.03,i))
-
+_,Q[0]=learn_bandit_rewards(bandits,0.3,episodes)
+_,Q[1]=learn_bandit_rewards(bandits,0.1,episodes)
+_,Q[2]=learn_bandit_rewards(bandits,0.03,episodes)
 steps=range(episodes)
+
 plt.plot(steps, Q[0], 'r', steps, Q[1], 'b', steps, Q[2], 'g')
 print Q[0][99],Q[1][99],Q[2][99]
 plt.show()

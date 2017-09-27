@@ -3,10 +3,10 @@ import numpy as np
 def learn_bandit_rewards(bandits, epsilon, num_episodes):
 
 	num_of_bandits=len(bandits)
-	Q_all=np.zeros(num_of_bandits,num_episodes)
+	Q_max_all=np.zeros(num_episodes)
 	Q=np.zeros(num_of_bandits)
 	N=np.zeros(num_of_bandits)
-	# np.random.seed(42)
+	np.random.seed([42])
 	for i in range(num_episodes):
 		action_prob=np.random.uniform()
 		if action_prob >=epsilon:
@@ -18,8 +18,9 @@ def learn_bandit_rewards(bandits, epsilon, num_episodes):
 		R=bandits[A]()
 		N[A]+=1
 		Q[A]+=(1.0/N[A])*(R-Q[A])
-	
-	return Q
+		Q_max_all[i]=np.max(Q)
+
+	return Q,Q_max_all
 
 def policy_evaluation(policy, env, gamma=0.95, theta= 0.0001):
 	V=np.zeros(env.nS)
@@ -78,15 +79,51 @@ def value_iteration(env, gamma=0.95, theta=0.0001):
 			if action_reward > max_reward:
 				max_reward=action_reward
 				pi[state]=action
-		# print max_reward
-	return pi # need to add a method to return the probablity of returning state x action probability policy
+	policy=np.zeros((env.nS,env.nA))
+	policy[np.arange(env.nS),pi]=1
+	return policy # need to add a method to return the probablity of returning state x action probability policy
 	# i think the rationale is that there will be multiple argmax and you split the probability to account for this 
 
-def policy_iteration(env, gamma =0.95):
-	pass
+def policy_iteration(env, gamma = 0.95):
+	V = np.zeros( env.nS )
+	policy = np.ones([env.nS, env.nA ]) / env.nA
+	policy_stable = False
+	while not policy_stable:
+		V = policy_iteration(policy,env)
+		policy, policy_stable = policy_improvement(policy, env, gamma)
 
-def policy_improvement():
-	pass
+	return policy, V
+
+
+
+def policy_improvement(policy, env, gamma = 0.95):
+	policy_stable=True
+	for state in range(env.nS):
+		old_action=policy[state]
+		for action in range(env.nA):
+			action_reward=0
+			transitions=env.P[state][action]
+			for transition in transitions:
+				prob,next_state,reward,_=transition
+				action_reward+=prob*(reward + gamma* V[next_state])
+			if action==0:
+				max_reward=action_reward
+				policy[state][0]=1
+				policy[state][1:env.nA]=0
+
+			if action_reward > max_reward:
+				max_reward=action_reward
+				for i in range(env.nA):
+					if i == action:
+						policy[state][i]=1
+					else:
+						policy[state][i]=0
+
+		if not min(old_action==policy[state]):
+			policy_stable=False
+
+	return policy
+
 
 
 
