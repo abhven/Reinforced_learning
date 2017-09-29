@@ -8,5 +8,7 @@ env.reset()
 policy=np.ones([env.nS,env.nA])/env.nA
 
 policy = value_iteration(env)
-# print np.reshape(V,(4,4))
 print policy
+
+# policy_compact=[ np.where(r==1)[0][0] for r in policy ]
+# print np.reshape(policy_compact, (4,4))

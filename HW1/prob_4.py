@@ -1,12 +1,13 @@
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
-from hw1 import value_iteration
+from hw1 import policy_iteration
 
 env=gym.make("FrozenLake-v0").unwrapped
-env.reset()
-policy=np.ones([env.nS,env.nA])/env.nA
+np.random.seed(42)
 
-policy = value_iteration(env)
-# print np.reshape(V,(4,4))
+policy = policy_iteration(env)
 print policy
+
+# policy_compact=[ np.where(r==1)[0][0] for r in policy ]
+# print np.reshape(policy_compact, (4,4))
