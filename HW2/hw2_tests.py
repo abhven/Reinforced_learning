@@ -16,13 +16,15 @@ def main(prob):
 
 		# Dyna-Q 
 		
-		Q,reward_dyna= dyna_q_learning(env1)
+		Q,reward_dyna= dyna_q_learning(env1, num_episodes = 400, num_planning = 50, epsilon = 0.02,\
+				alpha = 0.1, gamma = 0.99)
 		step_dyna = range( len( reward_dyna ))
 		plt.plot(step_dyna, reward_dyna, 'r',label="Dyna-Q")
 
 		# Dyna-Q+
 
-		Q_plus,reward_dyna_plus= dyna_q_learning(env1, kappa = 0.0001)
+		Q_plus,reward_dyna_plus= dyna_q_learning(env1, num_episodes = 400, num_planning = 50, \
+				epsilon = 0.02,	alpha = 0.1, gamma = 0.99, kappa = 0.0001)
 		step_dyna_plus = range( len( reward_dyna_plus ))
 		plt.plot(step_dyna_plus, reward_dyna_plus, 'b',label="Dyna-Q+")
 

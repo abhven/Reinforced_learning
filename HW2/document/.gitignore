@@ -1,0 +1,7 @@
+on
+!spec/*.json
+*.aux 
+*.bbl 
+*.blg 
+*.log 
+*.synctex.gz 

@@ -76,21 +76,10 @@ Reason:
 \end{problem}
 
 
-\begin{problem} {2} Policy Evaluation\\
-
-Policy evaluation was executed with the parameter $\gamma = 0.95$, $\theta=0.0001$, with a policy of all actions equally likely:
-
-$$ V = \begin{bmatrix} 
- 0.00161678 & 0.00225315 & 0.00715633 & 0.00214702 \\
- 0.00348862 & 0.       &   0.02231404 & 0.  \\
- 0.01172261 & 0.04333605 & 0.0868182  & 0.  \\
- 0.      &    0.08396291 & 0.29990939 & 0. \\
-\end{bmatrix} $$ 
+\begin{problem} {2} Dyna-Q vs. Dyna-Q+\\
+	
 \end{problem}
-
-\newpage
-
-\begin{problem} {3} Value Iteration\\
+\begin{problem} {3} Prioritized Sweeping\\
 	
 Policy obtained by value iteration with parameter $\gamma = 0.95 $, $\theta = 0.0001$
 $$ Policy = \begin{bmatrix} 
@@ -113,7 +102,7 @@ $$ Policy = \begin{bmatrix}
 \end{bmatrix} $$ 
 \end{problem}
 
-\begin{problem} {4} Policy Iteration\\
+\begin{problem} {4} Reproducibility \& Verification\\
 
 Policy obtained by value iteration with parameter $\gamma = 0.95 $, $\theta = 0.0001$
 $$ Policy = \begin{bmatrix} 
@@ -315,241 +304,21 @@ Enumerating over s, we can write it in matrix form as
 \end{proof}
 \end{problem}
 
-\begin{problem} {9} Meta\\
+\begin{problem} {8} Meta\\
 I got a late enrollment to the class and hence I had to start the assignment really late. I worked for over 3 days and spent around 20 hours for the assignment. I had to catch up with the lectures within this period. 
 
 \begin{itemize}
-	\item Prob 1: Implementation of the function was not difficult but I was not sure about the 4 bandits function. There was ambiguity in the definition of the function and hence visualization of the results
-	\item Prob 2: Policy evaluation was straight forward to implement. However, I took sometime to understand the \textbf{gym} environment.
-	\item Prob 3: Value iteration was easy to implement after understanding the environment
-	\item Prob 4: Policy iteration took some time since I was getting equivalent but slightly different answer compared to value iteration. I think I wasted a lot of time trying to reason this out and make changes to the code. 
-	\item Prob 5: I had trouble understanding the intricacies of Monte Carlo Control. I spent the maximum time in the implementation of this. 
-	\item Prob 6: Q-Learning was straight forward to implement. I did not spend much time on this
-	\item Prob 7: I spend a moderate amount of time on this
-	\item Prob 8: I spend a moderate amount of time on this
+	\item Prob 1 \& 2:It took a lot of time to try out the parameters.
+	\item Prob 3: The implementation was not too hard. I spent a total of 3 hours on this problem
+	\item Prob 4: I spent around 4 hours on this problem. 1 hour was spend on understanding the use fo requirements.txt and tesing it on a another linux machine. The README.md took around 0.5 hours since I have never made one before. 2.5 hrs was spent towards manually testing the algorithm.
+	\item Prob 5: I spent around 3 hours on this problem. Most of the time was spent in trying to understand the question. 
+	\item Prob 6: I spent around 3 hours on this problem 
+	\item Prob 7: I spent around 3 hours on this problem
 	
 \end{itemize}
 
-Did I have to learn python - \textbf{NO}\\
-Did I have to learn Open AI gym - \textbf{YES}\\
-
 
 \end{problem}
-%
-%\begin{problem} {X} to be removed\\
-%\vspace{2mm}
-%\textbf{Part A:}  
-%\begin{itemize}
-%\item According the formulation of the problem formulation in the code, there are 2 observation, the bearing and the landmark ID. There is no uncertainity in the observation of the landmark ID. Hence Q is a 2x2 matrix  of the form
-%$\begin{bmatrix} 
-%\beta^{2} & 0 \\ 0 & 0
-%\end{bmatrix} $, with $\beta$ set as $20^\circ$(and converted to radians). However in my formulation, I have considered Q to be a $1 \times 1$ matrix with the value $\beta^2$ in order to avoid Q becoming a singular matrix. Q= 0.1218
-%
-%\item $M=\begin{bmatrix} 
-%\alpha_1\delta_{rot_1}^{2} +\alpha_2\delta_{trans}^{2} & 0 & 0 \\
-% 0 & \alpha_3\delta_{trans}^{2} + \alpha_4(\delta_{rot_1}^{2} +\delta_{rot_2}^{2}) &0\\
-%0 & 0 & \alpha_1\delta_{rot_2}^{2} +\alpha_2\delta_{trans}^{2}
-%\end{bmatrix}$
-%
-%For the given initial condition, the values of M are (values taken from MATLAB):
-%$M=\begin{bmatrix} 
-%0.0001 & 0 & 0 \\
-% 0 & 0.2500 &0\\
-%0 & 0 & 0.0001
-%\end{bmatrix}$
-%
-%\item  $G_t=\begin{bmatrix}
-%1 & 0 & -\delta_{trans}sin(\theta +\delta_{rot1})\\ 
-%0 & 1 & \delta_{trans}cos(\theta +\delta_{rot1})\\
-%0 & 0 & 1
-%\end{bmatrix}$, $G_1=\begin{bmatrix}
-%1 & 0 & 0\\ 
-%0 & 1 & 10\\
-%0 & 0 & 1
-%\end{bmatrix}$
-%
-%$V_t=\begin{bmatrix}
-%-\delta_{trans}sin(\theta +\delta_{rot1}) & cos(\theta +\delta_{rot1}) & 0\\ 
-%\delta_{trans}cos(\theta +\delta_{rot1})& sin(\theta +\delta_{rot1}) & 0\\
-%1 & 0 & 1
-%\end{bmatrix}$, $V_1=\begin{bmatrix}
-%0 & 1 & 0\\ 
-%10 & 0 & 0\\
-%1 & 0 & 1
-%\end{bmatrix}$
-%
-%$H_t=\begin{bmatrix}
-%\dfrac{m_{j,y} - \bar\mu_{t,y}}{q} & -\dfrac{m_{j,x} - \bar\mu_{t,x}}{q} & -1
-%\end{bmatrix}$, $H_1=\begin{bmatrix}
-%-0.0018  & 0.0057  &  -1.0000\\
-%\end{bmatrix}$ \\
-%
-%The values were evaluated at the beginning of $t=1$. Values were taken from the MATLAB code.
-%\end{itemize}
-%
-%\textbf{Part B:} \\ The overlay was done and is included in the video, which is attached in zip file. The robot was found to be within the 3-sigma elipse for more than 98.89\% of the time. The data in the video was generated using the data from $\mathtt{task1.mat}$
-%
-%\textbf{Part C:} \\ Plot of errors in EKF, UKF and PF are attached in figure \ref{partC} 
-
-%\begin{figure}
-%\begin{subfigure}[ht]{0.31\textwidth}
-%\centering\includegraphics[width=1\linewidth]{EKF_x_error.png}
-%\caption{EKF:$\hat{x}-x$ vs $t$} \label{EKF_x_error}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{EKF_y_error.png}
-%\caption{EKF:$\hat{y}-y$ vs $t$} \label{EKF_y_error}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{EKF_theta_error.png}
-%\caption{EKF:$\hat{\theta}-\theta$ vs $t$} \label{EKF_theta_error}
-%\end{subfigure}
-%\begin{subfigure}[ht]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{UKF_x_error.png}
-%\caption{UKF:$\hat{x}-x$ vs $t$} \label{UKF_x_error}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{UKF_y_error.png}
-%\caption{UKF:$\hat{y}-y$ vs $t$} \label{UKF_y_error}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{UKF_theta_error.png}
-%\caption{UKF:$\hat{\theta}-\theta$ vs $t$} \label{UKF_theta_error}
-%\end{subfigure}
-%\begin{subfigure}[ht]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{PF_x_error.png}
-%\caption{PF:$\hat{x}-x$ vs $t$} \label{PF_x_error}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{PF_y_error.png}
-%\caption{PF:$\hat{y}-y$ vs $t$} \label{PF_y_error}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.32\textwidth}
-%\centering\includegraphics[width=1\linewidth]{PF_theta_error.png}
-%\caption{PF:$\hat{\theta}-\theta$ vs $t$} \label{PF_theta_error}
-%\end{subfigure}
-%
-%\caption{Plots for Part C}\label{partC}
-%\end{figure}
-
-%
-%\textbf{Part D:} 
-%\begin{itemize}
-%\item When the motion noise was set close to zero, $\alpha_{\{1,2,3,4\}}$ =$[0.00001^2, 0.00001^2, 0.00001^2, 0.0001^2]$ (the same values were used for the filter and the generate script function), the prediction is close to the robot. This is because the confidence in the progation model is very high. Even though the measurement noise is unchaged, the localization is good.  Result is shown in figure \ref{small_alpha}.
-%
-%When the measurement noise was set close to zero, $\beta = deg2rad(0.1)$, (the same values were used for the filter and the generate script function), the prediction was again found to be close to the robot. Though there was noise in the motion propagation, the confidence in the measurement is high and hence the localization is good. Result is shown in figure \ref{small_beta}.
-%
-%\item When the number of particles is reduced, there are a more number of times where the particles are far away from the robot ground truth. In fact it can be seen that when the number of particles is set to 20, the erro value shoots up more than the $3\sigma$ value, as seen in figure \ref{PF_less_particles}
-%
-%\item The effect of the noise estimation is shown for the EKF. The observation was similar for UKF and PF. \\ When the Q was underestimated, i.e. though the actual was high, I fed a small value to the filter, the etimation had a lot of error and the mean was way off from the robot. This can also be seen from the $3\sigma$ plot as in figure \ref{EKF_underestimate_beta}. However, in case Q was increased, the robot was still within $3\sigma$ as in figure\ref{EKF_overestimate_beta}. But this is because the estimation was bad and the limit was $3\sigma$ was way more than what it should be.
-%\\
-%When the $\alpha_{\{1,2,3,4\}}$ was underestimated, i.e. though the actual was high, I fed a small value to the filter, the etimation had a lot of error and the mean was way off from the robot. This can also be seen from the $3\sigma$ plot as in figure \ref{EKF_underestimate_alpha}. However, in case  $\alpha_{\{1,2,3,4\}}$  was increased, the robot was still within $3\sigma$ as in figure \ref{EKF_overestimate_alpha}. But this is because the estimation was bad and the limit was $3\sigma$ was way more than what it should be.
-%%
-%%\begin{figure}
-%%\begin{subfigure}[ht]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{error_t200_small_alpha.png}
-%%\caption{Small values of alpha} \label{small_alpha}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{error_t200_small_beta.png}
-%%\caption{Small value of beta} \label{small_beta}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{PF_less_particles.png}
-%%\caption{PF $\hat{y}-y$ vs $t$ with 20 particles} \label{PF_less_particles}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{EKF_underestimate_beta.png}
-%%\caption{EKF underestimate Q} \label{EKF_underestimate_beta}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{EKF_overestimate_beta.png}
-%%\caption{EKF overestimate Q} \label{EKF_overestimate_beta}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{EKF_underestimate_alpha.png}
-%%\caption{EKF underestimate alpha} \label{EKF_underestimate_alpha}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.45\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{EKF_overestimate_alpha.png}
-%%\caption{EKF overestimate alpha} \label{EKF_overestimate_alpha}
-%%\end{subfigure}
-%%\caption{Plots for Part D}
-%%\end{figure}
-%%
-%
-%\end{itemize}
-%
-%\textbf{Part E:}\\
-%In order to simulate the kidnapped robot problem, the initial condition of the robot was changed from the actual intital condition. ( of course, the ground truth was not changed) Hence, the observation was coming from  the actual robot position, but the propagation model started with the wrong initial state. It was found that the robot was outside the $3-\sigma$ ellipse for most of the time and could not recover even after 100 time steps. The below figures show the state  at t=100 for each of EKF, UFK and PF, when the robot was kidnapped to $[0,0,0]^T$ at $t=0$. Clearly, the localization method is not able to handle kidnapped problem. This also explains that the model does not solve the global localization issue. That is if the initial position was unknown, then the localization will not work, with any of the implementation used.
-%
-%%  
-%%\begin{figure}
-%%\begin{subfigure}[ht]{0.40\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{EKF_kidnapped.png}
-%%\caption{EKF: kidnapped} \label{EKF_kidnapped}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.40\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{UKF_kidnapped.png}
-%%\caption{UKF: kidnapped} \label{UKF_kidnapped}
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.40\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{PF_kidnapped.png}
-%%\caption{PF: kidnapped} \label{PF_kidnapped}
-%%\end{subfigure}
-%%\caption{Plots for Part E}\label{partE}
-%%\end{figure}
-%
-%
-%
-%
-%%\begin{problem}{4} Kalman Filter
-%%
-%%\begin{figure}
-%%\begin{subfigure}[ht]{0.85\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{4A.jpg}
-%%\caption{$x_t$ based on only propagation model with $\pm$ 1 sigma  }
-%%\end{subfigure}
-%%\begin{subfigure}[h]{0.85\textwidth}
-%%\centering\includegraphics[width=1\linewidth]{4B.jpg}
-%\caption{Comparison of raw observation and the real state $x_t$}
-%\end{subfigure}
-%\begin{subfigure}[h]{0.85\textwidth}
-%\centering\includegraphics[width=1\linewidth]{4D.jpg}
-%\caption{Plot of $bel(x_t)$ with $\pm$ 1,3 sigma  }
-%\end{subfigure}
-%
-%\caption{Plots for Task 4}
-%\end{figure}
-%\textbf{Part A:} Based on just the propagation model, $x_t= x_{t-1} + \Delta t.(u_t+\epsilon_t$)
-%
-%Hence, $\mu_t=\mu_{t-1}+\Delta t. u_t$ and $\Sigma_t=\Sigma_{t-1}+ \Delta t.R'.\Delta t^T $, since $A=1, B=\Delta t$ 
-%
-%
-%The resulting plot of $x_t$ is shown in figure 4(a)
-%
-%
-%\textbf{Part B:} The raw observation $z_t$ is  plotted against the real state $x_t$ in figure 4(b). It is clear that in measurement is noisy and can be seen in the plot.
-%
-%\textbf{Part C:} By investing the equations given, $A=1, B=0.1 C=1$. The value of the kalman gain, K, is found by:
-%
-%\[\bar{\mu_t}=A_t\mu_{t-1} + B_t u_t = \mu_{t-1} + 0.1u_t\]
-%\[\bar{\Sigma_t}=A_t\sigma_{t-1}A_t^T + \Delta t R' \Delta t^T = \Sigma_{t-1} + 0.01R'\]
-%\[K_t=\bar{\Sigma_t}C_{t}^T(C_{t}\bar{\Sigma_t}C_{t}^T + Q)^{-1}= \bar{\Sigma_t}(\bar{\Sigma_t}+Q)^{-1}, Kalman \hspace{1mm} gain
-%\]
-%\[\mu_t= \bar{\mu_t} +K_t(z_t-C_t \bar{\mu_t})= \mu_{t-1} + 0.1u_t +K_t(z_t- \bar{\mu_t}) \] 
-%\[\Sigma_t=(I-K_t C_t)\bar{\Sigma_t}=(1- K_t) \bar{\Sigma_t} \]
-%The right side of all the equations are simplified and can be easily implemented in an iterative way. At end of every iteration, we get $\mu_t$ which is the $bel(x_t)$. 
-%
-%\textbf{Part D:} Figure 4(c) shows the plot of the $bel(x_t)$ with $\pm1,3$ sigma.
-%
-%\textbf{Part E:} Integrating the observation decreases the sigma of the estimated value and the $bel(x_t)$ is quite close to the real state $x_t$ compared to the earlier prediction based on the propagation model. It is in fact interesting to note that even thought the observation is noisy with a very high variance $(Q)$, the observation adds a lot of information to the data. This can be seen from the fact that in the initial time steps, the propagation model brings in more valuable information to the data and hence, the sigma is quite small. However over time, the error from the propagation model accumulates and then the data from the measurement becomes more valuable.
-%
-%
-%
-%
-%
-%\end{problem}
 
 
 \end{document}
