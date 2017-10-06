@@ -15,8 +15,8 @@ prob_3 = False
 
 if prob_1:
 	# env = gym.make('FrozenLakeLargeShiftedIce-v0')
-	# env = gym.make('FrozenLakeLarge-v0').unwrapped
-	env=gym.make("FrozenLake-v0").unwrapped
+	env = gym.make('FrozenLakeLarge-v0').unwrapped
+	# env=gym.make("FrozenLake-v0").unwrapped
 	env.seed(0)
 	# env.render()
 	if False: #Dyna-Q
@@ -25,7 +25,7 @@ if prob_1:
 		plt.plot(step_dyna, reward_dyna, 'r',label="Dyna-Q")
 
 	if True: #Dyna-Q+
-		Q_plus,reward_dyna_plus= dyna_q_learning(env, kappa = 0.01)
+		Q_plus,reward_dyna_plus= dyna_q_learning(env, kappa = 0.0001)
 		step_dyna_plus = range( len( reward_dyna_plus ))
 		plt.plot(step_dyna_plus, reward_dyna_plus, 'b',label="Dyna-Q+")
 

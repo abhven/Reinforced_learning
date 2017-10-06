@@ -14,7 +14,7 @@ Download and unzip the submission file abhven.zip in the same directory as froze
 ```
 program directory
 --hw2.py
---hw2_test.py
+--hw2_tests.py
 --requirements.txt
 --frozen_lakes
   --__init__.py
@@ -40,16 +40,16 @@ All the commands need to be executed in the program directory
 
 For part 1, use the command
 ```
-python hw2_test.py 1
+python hw2_tests.py 1
 ```
 
 For part 2, use the command
 ```
-python hw2_test.py 2
+python hw2_tests.py 2
 ```
 
 For part 3, use the command
 ```
-python hw2_test.py 3
+python hw2_tests.py 3
 ```
 

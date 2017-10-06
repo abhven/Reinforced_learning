@@ -22,7 +22,7 @@ def epsilon_greedy(entries, epsilon):
 		return np.random.choice(len(entries))
 
 
-def dyna_q_learning(env, num_episodes = 5000, num_planning = 50, epsilon = 0.05,\
+def dyna_q_learning(env, num_episodes = 200, num_planning = 50, epsilon = 0.02,\
 	alpha = 0.1, gamma = 0.99, kappa= None):
 
 	np.random.seed(42)
