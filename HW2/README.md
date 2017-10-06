@@ -1,11 +1,25 @@
 # Reinforcement Learning - HW2 -Abhishek Venkataraman
 
-This is submission towards HW2 of EECS 598 Section 07. This file contains the instructions to reproduce the results obtained by me. 
+This is the submission towards HW2 of EECS 598 Section 07. This file contains the instructions to reproduce the results obtained by me. 
 
 ## Setting up the working directory
 
 ### Folder structure
 
+Dowload and unzip the frozen_lakes.tar.gz file from and unzip it using the command:
+```
+tar -xzf frozen_lakes.tar.gz 
+```
+Download and unzip the submission file abhven.zip in the same directory as frozen lakes folder. You have the following directory structure:
+```
+root directory
+--hw2.py
+--hw2_test.py
+--requirements.txt
+--frozen_lakes
+  --__init__.py
+  --lakes_envs.py
+```
 
 ### Setting up dependencies 
 
@@ -20,6 +34,7 @@ To install the dependencies run the command:
 ```
 pip install -r requirements.txt 
 
+```
 
 
 
