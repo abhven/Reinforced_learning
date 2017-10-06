@@ -1,4 +1,4 @@
-# Reinforcement Learning - HW2 -Abhishek Venkataraman
+# Reinforcement Learning - HW2 
 
 This is the submission towards HW2 of EECS 598 Section 07. This file contains the instructions to reproduce the results obtained by me. 
 
@@ -52,4 +52,8 @@ For part 3, use the command
 ```
 python hw2_tests.py 3
 ```
+
+
+## Author
+Abhishek Venkataraman, abhven@umich.edu
 

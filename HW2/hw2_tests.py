@@ -39,7 +39,18 @@ def main(prob):
 		pass
 
 	elif prob == '3':
-		pass
+	
+		policy, reward  = prioritized_sweeping(env1, num_episodes = 400, num_planning = 50, epsilon = 0.02,\
+				alpha = 0.1, gamma = 0.99)
+		steps = range(len(reward))
+	
+		plt.plot(steps, reward, 'r',label="Prioritized Sweeping")
+		plt.xlabel('Time steps')
+		plt.ylabel('Cummulative Rewards')
+		plt.show()
+
+		print policy	
+
 
 
 if __name__ == "__main__":
