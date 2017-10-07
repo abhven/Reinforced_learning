@@ -9,6 +9,40 @@
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{color}
+%\usepackage{algorithm,algorithmic}
+\usepackage{mathtools}
+
+
+\newcommand{\argmax}{\arg\!\max}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 
@@ -56,259 +90,465 @@
 In order to account for stochasticity, :
 
 Converged policy for Dyna-Q:
+$$ Policy = \begin{bmatrix} 
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  1.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 0.,  0.,  1.,  0.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  0.,  1.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+\end{bmatrix} $$ 
+Parameters: $\#episodes = 400$, $\#planning = 50$, $\epsilon = 0.02$,
+$\alpha = 0.1$, $\gamma = 0.99$, $\kappa = None$
 
-Parameters:
-
-Reason:
+Reasons:
+\vspace{-4mm} 
+\begin{itemize}
+	\item I was not able to reach the goal state many times in just 30 episodes
+	\item I changed the number of planning steps but that did not affect the results much
+	\item Large $\epsilon$ leads to more random action. Given that the environment has a large number of holes, it is essential that the optimal action is taken more often. Hence $\epsilon$ small value lets the cumulative reward increase.
+	\item I used the default learning rate. It did not affect the policy convergence a lot
+	\item since the reward is small and a lot of time, the agent falls into hole, I increased $\gamma$ so that the goal state helps the agent to be directed towards it 
+\end{itemize}
 
 Converged policy for Dyna-Q+:
+$$ Policy = \begin{bmatrix} 
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  1.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 0.,  0.,  1.,  0.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+ 0.,  0.,  0.,  1.\\
+ 0.,  0.,  1.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 0.,  1.,  0.,  0.\\
+ 1.,  0.,  0.,  0.\\
+\end{bmatrix} $$ 
+Parameters: $\#episodes = 400$, $\#planning = 50$, $\epsilon = 0.02$,
+$\alpha = 0.1$, $\gamma = 0.99$, $\kappa = 0.0001$
 
-Parameters:
-
-Reason:
+Reason: A large kappa was priority gives preference for visiting non goals states over goal state. This reduces the overall cumulative reward. The other parameters were the same as Dyna-Q method. 
 
 
-%	\begin{figure}[h]
-%		\centering
-%		\includegraphics[width = 0.6\linewidth]{bandits.png}
-%		\caption{\label{robot_ref_frame}World coordinate system and Robot coordinate system}
-%	\end{figure}
+
 \end{problem}
-
+\newpage
 
 \begin{problem} {2} Dyna-Q vs. Dyna-Q+\\
-	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width = 0.9\linewidth]{prob2_10agents.png}
+\end{figure}	
 \end{problem}
+%\newpage
 \begin{problem} {3} Prioritized Sweeping\\
-	
-Policy obtained by value iteration with parameter $\gamma = 0.95 $, $\theta = 0.0001$
+\begin{figure}[h]
+	\centering
+	\includegraphics[width = 0.45\linewidth]{DQ_DQ_plus.png}
+	\includegraphics[width = 0.45\linewidth]{PS.png}
+\end{figure}	
+Prioritized Sweeping seems to be converging slower than Dyna-Q and Dyna-Q+. I suspect that this is highly dependent on the parameters chosen. In case of Dyna-Q/Q+ the num of planning episodes was 50 while in case of this, the number of planning step was only 20. I suspect that this is a main reason for the difference. 
+\newpage
+
+Policy obtained by Prioritized Sweeping with the following parameters:\\ \#episodes= 1000, \#planning= 20, $ \epsilon = 0.02$, $\alpha = 0.1$, $\gamma = 0.99 $, $\theta = 0.5$
 $$ Policy = \begin{bmatrix} 
- 1.&  0.&  0.&  0.\\
- 0.&  0.&  0.&  1.\\
- 1.&  0.&  0.&  0.\\
- 0.&  0.&  0.& 1.\\
- 1.&  0.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
- 0.&  0.&  0.&  1.\\
- 0.&  1.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
- 0.&  0.&  1.&  0.\\
- 0.&  1.&  0.&  0.\\
- 1.&  0.&  0.&  0.\\
+ 0. & 0. & 0. & 1.\\
+ 0. & 0. & 0. & 1.\\
+ 0. & 0. & 0. & 1.\\
+ 0. & 0. & 1. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 0. & 0. & 1. & 0.\\
+ 0. & 0. & 0. & 1.\\
+ 0. & 0. & 0. & 1.\\
+ 0. & 0. & 1. & 0.\\
+ 0. & 1. & 0. & 0.\\
+ 0. & 1. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
+ 0. & 1. & 0. & 0.\\
+ 0. & 0. & 1. & 0.\\
+ 0. & 0. & 1. & 0.\\
+ 0. & 1. & 0. & 0.\\
+ 0. & 1. & 0. & 0.\\
+ 1. & 0. & 0. & 0.\\
 \end{bmatrix} $$ 
+Reasons:
+\vspace{-4mm} 
+\begin{itemize}
+	\item I needed a large number of episodes to reach goal more frequently
+	\item Large number of planning with large number of episodes took a lot of computational time
+	\item Large $\epsilon$ leads to more random action. Given that the environment has a large number of holes, it is essential that the optimal action is taken more often. Hence $\epsilon$ small value lets the cumulative reward increase.
+	\item I did not change the learning rate
+	\item since the reward is small and a lot of time, the agent falls into hole, I increased $\gamma$ so that the goal state helps the agent to be directed towards it
+	\item I increase $\theta$ so that lesser number of elements were added to the backup list. With smaller $\theta$ the convergence rate was slower 
+\end{itemize}
+
 \end{problem}
 
+\newpage
 \begin{problem} {4} Reproducibility \& Verification\\
 
-Policy obtained by value iteration with parameter $\gamma = 0.95 $, $\theta = 0.0001$
-$$ Policy = \begin{bmatrix} 
- 0. & 1. & 0. & 0.\\
- 0. & 0. & 0. & 1.\\
- 1. & 0. & 0. & 0.\\
- 0. & 0. & 0. & 1.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 0. & 0. & 0. & 1.\\
- 0. & 1. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 0. & 0. & 1. & 0.\\
- 0. & 0. & 1. & 0.\\
- 1. & 0. & 0. & 0.\\
-\end{bmatrix} $$ 
+\begin{itemize}
+	\item [(i)] First 3 lines of requirement.txt :
+\begin{lstlisting}
+matplotlib==1.5.1
+numpy==1.13.3
+gym==0.9.3
+\end{lstlisting}
+\item [(ii)] I created a simple map with deterministic actions 
+
+\[\begin{bmatrix}
+S & F\\
+H & G
+\end{bmatrix}\]\\
+
+I used numpy to generate random number and test the algorithm I ran for 2 episodes with 1 planning step in each episode.\\
+
+The following is the sequence and hand calculations for it :\\
+
+\underline{EPISODE 1 :}\\
+
+\hspace*{20pt} Actual action : \\
+
+State : S(0) \\ Action : Right(2) \\ Next state : F(1) \\ Reward : 0\\
+
+\hspace*{20pt} Q(0,2) = Q(0,2) + 0.1 * (0 + 0.95 * max Q(1) - Q(0,2))\\
+\hspace*{20pt} Q(0,2) = Q(0,2) + 0.1 * (0 + 0 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\hspace*{20pt} Planning : \\
+
+State : S(0) \\ Action : Right(2) \\ Next state : F(1) \\ Reward : 0\\
+
+\hspace*{20pt} Q(0,2) = Q(0,2) + 0.1 * (0 + 0.9 * max Q(1) - Q(0,2))\\
+\hspace*{20pt} Q(0,2) = Q(0,2) + 0.1 * (0 + 0.9 * 0.1 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\hspace*{20pt} Actual action : \\
+
+State : F(1) \\ Action : Down(1) \\ Next state : G(3) \\ Reward : 1\\
+
+\hspace*{20pt} Q(1,1) = Q(1,1) + 0.1 * (1 + 0.9 * max Q(1) - Q(1,1))\\
+\hspace*{20pt} Q(1,1) = Q(1,1) + 0.1 * (1 + 0 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0 & 0 & 0 & 0\\
+0 & 0.1 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\hspace*{20pt} Planning : \\
+
+State : S(0) \\ Action : Right(2) \\ Next state : F(1) \\ Reward : 0\\
+
+\hspace*{20pt} Q(0,2) = Q(0,2) + 0.1 * (0 + 0.9 * max Q(1) - Q(0,2))\\
+\hspace*{20pt} Q(0,2) = Q(0,2) + 0.1 * (0 + 0.9 * 0.1 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0 & 0 & 0.009 & 0\\
+0 & 0.1 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\underline{EPISODE 2 :}\\
+
+\hspace*{20pt} DIRECT RL : \\
+
+State : S(0) \\ Action : Left(0) \\ Next state : S(0) \\ Reward : 0\\
+
+\hspace*{20pt} Q(0,0) = Q(0,0) + 0.1 * (0 + 0.9 * max Q(0) - Q(0,0))\\
+\hspace*{20pt} Q(0,0) = Q(0,0) + 0.1 * (0 + 0.9 * 0.009 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0.00081 & 0 & 0.009 & 0\\
+0 & 0.1 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\hspace*{20pt} Planning : \\
+
+
+State : F(1) \\ Action : Down(1) \\ Next state : G(3) \\ Reward : 1\\
+\hspace*{20pt} Q(1,1) = Q(1,1) + 0.1 * (0 + 0.9 * max Q(3) - Q(1,1))\\
+\hspace*{20pt} Q(1,1) = Q(1,1) + 0.1 * (1 + 0 - 0.1)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0.00081 & 0 & 0.009 & 0\\
+0 & 0.19 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\hspace*{20pt} Actual step : \\
+
+State : S(0) \\ Action : Down(1) \\ Next state : H(2) \\ Reward : 0\\
+
+\hspace*{20pt} Q(0,1) = Q(0,1) + 0.1 * (0 + 0.9 * max Q(2) - Q(0,1))\\
+\hspace*{20pt} Q(0,1) = Q(0,1) + 0.1 * (0 + 0 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0.00081 & 0 & 0.009 & 0\\
+0 & 0.19 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+
+\hspace*{20pt} Planning : \\
+
+
+State : S(0) \\ Action : Down(1) \\ Next state : H(2) \\ Reward : 0\\
+\hspace*{20pt} Q(0,1) = Q(0,1) + 0.1 * (0 + 0.9 * max Q(2) - Q(0,1))\\
+\hspace*{20pt} Q(0,1) = Q(0,1) + 0.1 * (0 + 0 - 0)
+
+Q values calculated : 
+\[\begin{bmatrix}
+0.00081 & 0 & 0.009 & 0\\
+0 & 0.19 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}\]\\
+This is consistent with what I got from running the code
+\newpage	
+\item [(iii)] Rendered README.md file \url{https://github.com/abhven/Reinforced_learning/tree/master/HW2}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.75\linewidth]{readme.png}
+%		\includegraphics[page =1, width = 0.49\linewidth]{readme.pdf}
+%		\includegraphics[page =2, width = 0.49\linewidth]{readme.pdf}
+	\end{figure}
+\end{itemize}
 
 \end{problem}
 
-\newpage
-\begin{problem} {5} Monte Carlo Control\\
-
-I get a Q table and policy similar (but not exactly the same) to what I got earlier. However, when I looked through the optimal policy returned by the method, it seems to make sense, while looking at the frozen lake map. The terminal states have a Q value of 0 for all actions.
-$$ Q = \begin{bmatrix} 
- 0.02493814 & 0.03838601 & 0.0294193  & 0.02647063\\
- 0.0112437  & 0.03006502 & 0.03687614 & 0.0466167 \\
- 0.06729078 & 0.03979415 & 0.05595731 & 0.04642278\\
- 0.03108625 & 0.02096409 & 0.02698308 & 0.        \\
- 0.03284949 & 0.04799333 & 0.02831384 & 0.0189512 \\
- 0.         & 0.         & 0.         & 0.        \\
- 0.08847326 & 0.06405801 & 0.11297363 & 0.05231165\\
- 0.         & 0.         & 0.         & 0.        \\
- 0.03040877 & 0.07710062 & 0.06266217 & 0.11310736\\
- 0.14465794 & 0.1400729  & 0.19451944 & 0.09086186\\
- 0.30967946 & 0.28228565 & 0.10998967 & 0.04645254\\
- 0.         & 0.         & 0.         & 0.        \\
- 0.         & 0.         & 0.         & 0.        \\
- 0.11252327 & 0.31696174 & 0.33995534 & 0.24603164\\
- 0.177179   & 0.44868949 & 0.26029546 & 0.18340379\\
- 0.         & 0.         & 0.         & 0.        \\
-\end{bmatrix}$$
-
-$$ Policy = \begin{bmatrix} 
- 0. & 1. & 0. & 0.\\
- 0. & 0. & 0. & 1.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 0. & 1. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 0. & 0. & 1. & 0.\\
- 1. & 0. & 0. & 0.\\
- 0. & 0. & 0. & 1.\\
- 0. & 0. & 1. & 0.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
- 0. & 0. & 1. & 0.\\
- 0. & 1. & 0. & 0.\\
- 1. & 0. & 0. & 0.\\
-\end{bmatrix} $$ 
-
-\end{problem}
-\newpage
-\begin{problem} {6} Q-Learning\\
-
-The final Q table after 500 episodes :
-$$ Q = \begin{bmatrix} 
- 0.04463358 &  0.04950337 & 0.05075302 & 0.05127952\\
- 0.02430698 & 0.0145442   & 0.04119943 & 0.05007132\\
- 0.06869312 & 0.05069395  & 0.01123521 & 0.03206709\\
- 0.0063983  & 0.00689914  & 0.00972855 & 0.04960062\\
- 0.05176841 & 0.00674974  & 0.00778528 & 0.02978962\\
- 0.         & 0.          & 0.         & 0.        \\
- 0.04027403 & 0.00101772  & 0.09471334 & 0.        \\
- 0.         & 0.          & 0.         & 0.        \\
- 0.00441195 & 0.02145365  & 0.010348   & 0.04226591\\
- 0.03960406 & 0.          & 0.         & 0.02059928\\
- 0.09953314 & 0.53531923  & 0.         & 0.07445918\\
- 0.         & 0.          & 0.         & 0.        \\
- 0.         & 0.          & 0.         & 0.        \\
- 0.         & 0.          & 0.         & 0.05700875\\
- 0.23986141 & 0.37037029  & 0.80054314 & 0.        \\
- 0.         & 0.          & 0.         & 0.        \\
-\end{bmatrix} $$ 
-
-The Q values of terminal states are all 0. 
-\end{problem}
-
-\begin{problem} {7} Rate of convergence\\
-
+\newpage	
+\begin{problem} {5} Theory: Maximum-Likelihood estimate\\
 \begin{proof}	
-We know that the maximum reward in any step is given by,
+Given the MDP of n states, we want to find the transition probability,
 \begin{align}
-	V^*(s) \leq \sum_{i=1}^{\infty} \gamma^i R_{max}
+	p(S'=s'|S=s,A=a)	
 	\nonumber
-\end{align}
-Given that the reward for all state action pair is between 0 and 1, we know that $R_{max}$=1;
+\end{align}	  
+ 
+%\begin{align}
+%L(p)=Pr(S'=s')\prod_{s\in S,a \in A}	p(S'=s'|S=s,A=a)
+%\nonumber
+%\end{align}	  
+Let $n(s,a ->s')$ be the transition counts to state $s'$ from state $s$ by action $a$. Writing in terms of likelihood,
 \begin{align}
-V^*(s) \leq \sum_{i=1}^{\infty} \gamma^i 
+L(p)=Pr(S'=s')\prod_{s\in S,a \in A}~\prod_{s'\in S'}	p(S'=s'|S=s,A=a)^{n(s,a ->s')}
+\nonumber
+\end{align}	 
+Taking log form, 
+\begin{align}
+\log L(p)= \log Pr(S'=s') + \sum_{s\in S,a \in A, s'\in S'}	{n(s,a ->s')} \log p(s'|s,a) 
 \nonumber
 \end{align}
-By using summation over infite series, (since $\gamma \leq 1$ ),
+Taking the derivative,
 \begin{align}
-V^*(s) \leq \dfrac{1}{1-\gamma} 
+\dfrac{\partial \log L(p)}{\partial p(s'|s,a)}= \dfrac{n(s,a ->s')}{p(s'|s,a)} 
 \nonumber
 \end{align}
-The value function over $k^{th}$ iteration can be written as:
+This is equal to 0 at $p(s'|s,a)$. Now we can get
 \begin{align}
-V_k(s) = \sum_{i=1}^{k} \gamma^i \nonumber\\
-\therefore V_k(s) = \dfrac{1-\gamma^k}{1-\gamma}
-\nonumber
-\end{align}
-Taking the difference between the optimal value and $k^{th}$ iteration,
-\begin{align}
-\vert V_k(s) - V^*(s) \vert \leq \epsilon
-\nonumber \\
-\vert \dfrac{1-\gamma^k}{1-\gamma} -  \dfrac{1}{1-\gamma} \vert \leq \epsilon 
+\dfrac{\hat n(s,a ->all)}{p(all|s,a)}= \dfrac{\hat n(s,a ->s')}{p(s'|s,a)} 
 \nonumber\\
-\vert \dfrac{-\gamma^k}{1-\gamma} \vert \leq \epsilon
-\nonumber\\
- \dfrac{\gamma^k}{1-\gamma}  \leq \epsilon 
+\therefore \dfrac{p(s'|s,a)}{p(all|s,a)}= \dfrac{\hat n(s,a ->s')}{\hat n(s,a ->all)} 
 \nonumber
 \end{align}
-taking logarithm on both sides, 
+we know that ${p(all|s,a)} = 1$
 \begin{align}
-	\log \dfrac{\gamma^k}{`-\gamma} \leq \log \epsilon \nonumber \\
-	\log \gamma^k - \log (1-\gamma) \leq \log \epsilon \nonumber \\
-	k \log \gamma \leq \log \epsilon + \log (1-\gamma) \nonumber \\
-	k \leq \dfrac{\log(\epsilon . (1-\gamma))}{\log \gamma }\nonumber
+\therefore {p(s'|s,a)}= \dfrac{\hat n(s,a ->s')}{\hat n(s,a ->all)} 
+\nonumber
 \end{align}
-Hence the number of steps that guarantee the absolute error to be less than $\epsilon$ is given by: 
-\begin{align}
-\dfrac{\log(\epsilon . (1-\gamma))}{\log \gamma }\nonumber
-\end{align} 
+ 
 \end{proof}	
 
 \end{problem}
 
-\begin{problem} {8} Exact Policy Evaluation for an MDP\\
-\begin{proof}
-	Value function is given by,
-	\begin{equation}
+\begin{problem} {6} Theory: POMPDP belief state\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width = 1\linewidth]{Belief_states.pdf}
+	\end{figure}
+\end{problem}
+The belief state can be given by:
+\begin{align}
+b'(s')= \dfrac{O(s',a,o)\Sigma_{s\in S} T(s,a,s')b(s)}{Pr(o\vert a,b)}= \eta.O(s',a,o)\Sigma_{s\in S} T(s,a,s')b(s)
+\nonumber
+\end{align}
+where $\eta$ is the normalization factor. Since the observation is only whether in goal state or not, 
+\begin{align}
+O(s', a , o) = &  \begin{cases}
+0, ~\text{if}~ s' \in \{1,2,4\} ~ \mathtt{and} ~o = GOAL  \\
+1, ~\text{if}~ s' \in \{1,2,4\} ~ \mathtt{and} ~o = NOT~ GOAL  \\
+1, ~\text{if}~ s' \in \{3\} ~ \mathtt{and} ~o = GOAL  \\
+0, ~\text{if}~ s' \in \{3\} ~ \mathtt{and} ~o = NOT ~GOAL  \\
+\end{cases}
+\nonumber
+\end{align}
+Clearly if we observe goal state, then belief state would take the value $[0,0,1,0]$. Hence the below calculations are shown only for non goal state observations.\\
+
+\textbf{Depth = 1}\\
+Action = West
+\begin{align}
+b'(1) &= \eta.1.\{T(1,W,1)b(1) + T(2,W,1)b(2)\}=\eta\{0.9\times0.33 + 0.9\times0.33\} &= 0.594\eta \nonumber\\
+b'(2) &= \eta.1.\{T(1,W,2)b(1) \}=\eta 0.1\times0.33 &= 0.033\eta \nonumber\\
+b'(3) & &=0 \nonumber\\
+b'(4) &= \eta.1.\{T(4,W,4)b(1) \}=\eta 0.1\times0.33 &= 0.033\eta \nonumber\\
+\nonumber
+\end{align}
+Solving $\Sigma_{s \in \{1,2,3,4\}} b'(s')=1$, belief state = $[ 0.9,0.05,0,
+0.05]$ \\
+
+\textit{Action = East}
+\begin{align}
+b'(1) &= \eta.1.\{T(1,E,1)b(1) + T(2,E,1)b(2)\}=\eta\{0.1\times0.33 + 0.1\times0.33\} &= 0.067\eta \nonumber\\
+b'(2) &= \eta.1.\{T(1,E,2)b(1) \}=\eta 0.9\times0.33 &= 0.297\eta \nonumber\\
+b'(3) & &=0 \nonumber\\
+b'(4) &= \eta.1.\{T(4,E,4)b(1) \}=\eta 0.9\times0.33 &= 0.297\eta \nonumber\\
+\nonumber
+\end{align}
+Solving $\Sigma_{s \in \{1,2,3,4\}} b'(s')=1$, belief state = $[ 0.1,0.45,0,
+0.45]$ \\
+
+\textbf{Depth = 2}\\
+\textit{Depth 1 Action = West, Depth 2 Action = West}
+\begin{align}
+b'(1) &= \eta.1.\{T(1,W,1)b(1) + T(2,W,1)b(2)\}=\eta\{0.9\times0.9 + 0.9\times0.05\} &= 0.855\eta \nonumber\\
+b'(2) &= \eta.1.\{T(1,W,2)b(1) \}=\eta 0.1\times0.9 &= 0.09\eta \nonumber\\
+b'(3) & &=0 \nonumber\\
+b'(4) &= \eta.1.\{T(4,W,4)b(1) \}=\eta 0.1\times0.05 &= 0.005\eta \nonumber\\
+\nonumber
+\end{align}
+Solving $\Sigma_{s \in \{1,2,3,4\}} b'(s')=1$, belief state = $[ 0.9,0.095,0,
+0.005]$ \\
+
+\textit{Depth 1 Action = West, Depth 2 Action = East}
+\begin{align}
+b'(1) &= \eta.1.\{T(1,E,1)b(1) + T(2,E,1)b(2)\}=\eta\{0.1\times0.9 + 0.1\times0.05\} &= 0.095\eta \nonumber\\
+b'(2) &= \eta.1.\{T(1,E,2)b(1) \}=\eta 0.9\times0.9 &= 0.81\eta \nonumber\\
+b'(3) & &=0 \nonumber\\
+b'(4) &= \eta.1.\{T(4,E,4)b(1) \}=\eta 0.9\times0.05 &= 0.045\eta \nonumber\\
+\nonumber
+\end{align}
+Solving $\Sigma_{s \in \{1,2,3,4\}} b'(s')=1$, belief state = $[ 0.1,0.853,0,
+0.047]$ \\
+
+\textit{Depth 1 Action = East, Depth 2 Action = West}
+\begin{align}
+b'(1) &= \eta.1.\{T(1,W,1)b(1) + T(2,W,1)b(2)\}=\eta\{0.9\times0.1 + 0.9\times0.45\} &= 0.495\eta \nonumber\\
+b'(2) &= \eta.1.\{T(1,W,2)b(1) \}=\eta 0.1\times0.1 &= 0.01\eta \nonumber\\
+b'(3) & &=0 \nonumber\\
+b'(4) &= \eta.1.\{T(4,W,4)b(1) \}=\eta 0.1\times0.45 &= 0.045\eta \nonumber\\
+\nonumber
+\end{align}
+Solving $\Sigma_{s \in \{1,2,3,4\}} b'(s')=1$, belief state = $[ 0.9,0.018,0,
+0.082]$ \\
+
+\textit{Depth 1 Action = East, Depth 2 Action = East}
+\begin{align}
+b'(1) &= \eta.1.\{T(1,E,1)b(1) + T(2,E,1)b(2)\}=\eta\{0.1\times0.1 + 0.1\times0.45\} &= 0.055\eta \nonumber\\
+b'(2) &= \eta.1.\{T(1,E,2)b(1) \}=\eta 0.9\times0.1 &= 0.09\eta \nonumber\\
+b'(3) & &=0 \nonumber\\
+b'(4) &= \eta.1.\{T(4,E,4)b(1) \}=\eta 0.9\times0.45 &= 0.405\eta \nonumber\\
+\nonumber
+\end{align}
+Solving $\Sigma_{s \in \{1,2,3,4\}} b'(s')=1$, belief state = $[ 0.1,0.164,0,
+0.736]$ \\
+
+\begin{problem} {7} Theory: Optimum policy with fixed horizon\\
+
+When the horizon to be 1, clearly, the 
+\begin{align}
+	\pi^*_1(s)= \argmax_a  R(s,a) \nonumber\\
+	V_1(s)\coloneqq R(s,\pi_1(s)) ~~\forall s \in S
 	\nonumber
-	V(s) = \mathbb{E}[G_t|S_t = s]
-	\end{equation}
-where, $G_t$ is the discounted return starting at time step t for state s
-	\begin{align}
-	\nonumber
-	V(s) = \mathbb{E}[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... |S_t = s] \\
-	\nonumber
-	V(s) = \mathbb{E}[R_{t+1} + \gamma G_{t+1}|S_t = s]\\
-	\nonumber
-	V(s) = \mathbb{E}[R_{t+1} + \gamma vS_{t+1}| S_t = s]\\
-	\nonumber
-	V(s) = R_s + \gamma \sum_{s'\in S}P_{ss'}V(s')
-	\nonumber
-	\end{align}
-where $s'$ is the set of next possible state.\\
-Enumerating over s, we can write it in matrix form as  
-	\begin{align}
-	\begin{bmatrix}
-	V_{1} \\
-	V_{2} \\
-	\vdots \\
-	V_{n}
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-	R_{1} \\
-	R_{2} \\
-	\vdots \\
-	R_{n}
-	\end{bmatrix}
-	+ \gamma.
-	\begin{bmatrix}
-	P_{11} & P_{12} & \cdots & P_{1n}\\
-	P_{21} & P_{22} & \cdots & P_{2n}\\
-	\vdots & \vdots& & \vdots\\
-	P_{n1} & P_{n2} & \cdots & P_{nn}\\
-	\end{bmatrix}
-	\begin{bmatrix}
-	V_{1} \\
-	V_{2} \\
-	\vdots \\
-	V_{n}
-	\end{bmatrix} \nonumber
-	\end{align}
-	
-	Writing in vectorized form, 
-	
-	\begin{align}
-	\mathbf{V_{\pi}} = \mathbf{R_{\pi}} + \gamma.\mathbf{P_\pi}.\mathbf{V_{\pi}} \nonumber \\
-	\therefore \mathbf{V_{\pi}} = (\mathbf{I} - \gamma \mathbf{P_{\pi}})^{-1}\mathbf{R_{\pi}} \nonumber
-	\end{align}
-\end{proof}
+\end{align}	
+Now for horizon of 2 and 3, using $V_1(s)$,\\
+
+Initialize $V_2(s) = 0 $  $\forall s \in S $\\
+\textbf{loop} for all $ t \in \{2,3\}$ \\
+\hspace*{10mm}\textbf{loop} for all $ s \in S$ \\
+\hspace*{10mm}\hspace*{10mm} \textbf{loop} for all $ a \in A$\\
+\hspace*{10mm}\hspace*{10mm}\hspace*{10mm} $Q_t^a(s) \coloneqq R(s,a) + \Sigma_{s' \in S} T(s,a,s') V_{t-1}(s') $\\
+\hspace*{10mm}\hspace*{10mm} \textbf{end loop}\\
+\hspace*{10mm}\hspace*{10mm} $V_t(s) \coloneqq \max_a Q^a_t(s)$\\
+\hspace*{10mm} \textbf{end loop}\\
+\textbf{end loop}\\
+
+Hence the optimal policy with 3 steps look ahead can be given by :
+
+\begin{align}
+\pi^*(s)= \argmax_a \begin{bmatrix} R(s,a) + \Sigma_{s' \in S} T(s,a,s')V_3(s')     \end{bmatrix} \nonumber
+\end{align}
+
 \end{problem}
 
+
 \begin{problem} {8} Meta\\
-I got a late enrollment to the class and hence I had to start the assignment really late. I worked for over 3 days and spent around 20 hours for the assignment. I had to catch up with the lectures within this period. 
+I feel that 1 week was quite a small time for this assignment. I understand the course is being taught for the first time, however, it was quite frustrating that there were so many changes in the HW. Also the additional time constraint and uncertainty made the assignment challenging. 
 
 \begin{itemize}
-	\item Prob 1 \& 2:It took a lot of time to try out the parameters.
+	\item Prob 1 \& 2:It took a lot of time to try out the parameters. I would have spent around 10-12 hours for coding, debugging and fine tuning the parameters.
 	\item Prob 3: The implementation was not too hard. I spent a total of 3 hours on this problem
 	\item Prob 4: I spent around 4 hours on this problem. 1 hour was spend on understanding the use fo requirements.txt and tesing it on a another linux machine. The README.md took around 0.5 hours since I have never made one before. 2.5 hrs was spent towards manually testing the algorithm.
 	\item Prob 5: I spent around 3 hours on this problem. Most of the time was spent in trying to understand the question. 
